@@ -13,5 +13,6 @@ fi
 file="`basename "$1"`"
 dir="`dirname "$1"`"
 
+# Write writestr to writefile.
 mkdir -p $dir
 echo $2 > $1
