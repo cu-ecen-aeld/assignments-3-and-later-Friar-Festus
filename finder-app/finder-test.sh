@@ -48,9 +48,11 @@ then
 		exit 1
 	fi
 fi
+
+# *** Removing per instructions for Assignment 3 Part 1
 #echo "Removing the old writer utility and compiling as a native application"
-make clean
-make
+# make clean
+# make
 
 for i in $( seq 1 $NUMFILES)
 do
