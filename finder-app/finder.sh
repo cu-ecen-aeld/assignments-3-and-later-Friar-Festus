@@ -1,4 +1,4 @@
-#/usr/bin/bash
+#!/bin/sh
 
 # First we check for the correct number of arguments,
 # exiting if there are more or less than two.

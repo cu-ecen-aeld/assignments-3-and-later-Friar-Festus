@@ -6,6 +6,7 @@ CC = $(strip $(CROSS_COMPILE))$(strip $(GCC))
 #CC += gcc
 CFLAGS = -g
 CFLAGS += -Wall
+CFLAGS += -fPIC
 
 target = writer
 files = writer.c
