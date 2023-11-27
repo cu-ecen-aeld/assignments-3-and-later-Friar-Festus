@@ -12,6 +12,7 @@ BUSYBOX_VERSION=1_33_1
 FINDER_APP_DIR=$(realpath $(dirname $0))
 ARCH=arm64
 CROSS_COMPILE=aarch64-none-linux-gnu-
+SYSROOT=${CROSS_COMPILE}gcc -print-sysroot
 
 if [ $# -lt 1 ]
 then
@@ -35,7 +36,7 @@ if [ ! -e ${OUTDIR}/linux-stable/arch/${ARCH}/boot/Image ]; then
     git checkout ${KERNEL_VERSION}
 
     # Copy patch for YYLLOC error
-    cp /home/thomas/tmp/linux-stable/scripts/dtc/dtc-lexer.l /tmp/aesd-autograder/linux-stable/scripts/dtc/dtc-lexer.l
+    cp ${SYSROOT}/dtc-lexer.l /tmp/aesd-autograder/linux-stable/scripts/dtc/dtc-lexer.l
 
     # TODO: Add your kernel build steps here    
     make ARCH=arm64 CROSS_COMPILE=aarch64-none-linux-gnu- mrproper
@@ -95,10 +96,10 @@ ${CROSS_COMPILE}readelf -a ${OUTDIR}/busybox/busybox | grep "program interpreter
 ${CROSS_COMPILE}readelf -a ${OUTDIR}/busybox/busybox | grep "Shared library"
 
 # TODO: Add library dependencies to rootfs
-cp /home/thomas/Temp/cross_gcc_arm/gcc-arm-10.2-2020.11-x86_64-aarch64-none-linux-gnu/aarch64-none-linux-gnu/libc/lib/ld-linux-aarch64.so.1 ${OUTDIR}/rootfs/lib/
-cp /home/thomas/Temp/cross_gcc_arm/gcc-arm-10.2-2020.11-x86_64-aarch64-none-linux-gnu/aarch64-none-linux-gnu/libc/lib64/libm.so.6 ${OUTDIR}/rootfs/lib64/
-cp /home/thomas/Temp/cross_gcc_arm/gcc-arm-10.2-2020.11-x86_64-aarch64-none-linux-gnu/aarch64-none-linux-gnu/libc/lib64/libresolv.so.2 ${OUTDIR}/rootfs/lib64/
-cp /home/thomas/Temp/cross_gcc_arm/gcc-arm-10.2-2020.11-x86_64-aarch64-none-linux-gnu/aarch64-none-linux-gnu/libc/lib64/libc.so.6 ${OUTDIR}/rootfs/lib64/
+cp ${SYSROOT}/lib/ld-linux-aarch64.so.1 ${OUTDIR}/rootfs/lib/
+cp ${SYSROOT}/lib64/libm.so.6 ${OUTDIR}/rootfs/lib64/
+cp ${SYSROOT}/lib64/libresolv.so.2 ${OUTDIR}/rootfs/lib64/
+cp ${SYSROOT}/lib64/libc.so.6 ${OUTDIR}/rootfs/lib64/
 
 # TODO: Make device nodes
 cd ${OUTDIR}/rootfs
